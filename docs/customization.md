@@ -6,6 +6,10 @@ This repository customizes Yaru's dark GTK window borders to make the active
 window easier to distinguish from inactive windows. The change is implemented
 for GTK 3 and GTK 4 and leaves the light theme behavior unchanged.
 
+The customization is based on the immutable `24.04.2-0ubuntu1` tag, matching
+the Yaru package published for Ubuntu 24.04 LTS. It is not based on the moving
+`upstream/master` development branch.
+
 The customization changes only the color values used by the existing window
 decoration rules. Border thickness, shadows, rounded corners, transitions, and
 selectors remain inherited from Yaru.
@@ -92,9 +96,15 @@ In a graphical session, check at least:
 toolkits. Switching focus between two overlapping windows is the clearest check
 of the active/backdrop distinction.
 
-## Upstream rebase checklist
+Build and user-local installation commands are maintained in
+[fork.md, Section 8](fork.md#8-build-and-install-the-customization). The local
+installation overrides Yaru for the current account without replacing Ubuntu's
+package-managed files under `/usr/share/themes`.
 
-After rebasing onto a newer Yaru version:
+## Package baseline upgrade checklist
+
+After Ubuntu publishes a newer Yaru package for Noble and `custom` is
+transplanted onto its verified package tag:
 
 1. Confirm that GTK 3 and GTK 4 still define `$_wm_border` and
    `$_wm_border_backdrop` in their window-decoration sections.

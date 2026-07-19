@@ -32,7 +32,8 @@ generated-file churn, or broad refactors.
 - `debian/`: Ubuntu package metadata.
 - `*/upstream/`: reference snapshots used for upstream comparisons and
   three-way merges; they are not package build inputs.
-- `build/` or `_build/`: local Meson output. Never commit build artifacts.
+- `build/`, `build-install/`, or `_build/`: local Meson output. Never commit
+  build artifacts.
 
 ## Source-editing rules
 
@@ -131,17 +132,20 @@ Never claim visual validation based on compilation alone.
 
 ## Upstream and rebase discipline
 
-The local customization should remain rebaseable on the latest selected Yaru
-baseline.
+The local customization should remain rebaseable on the selected immutable
+Ubuntu package tag. The current Ubuntu 24.04 baseline is
+`24.04.2-0ubuntu1`; do not substitute moving upstream development branches.
 
-- Verify the current branch, remotes, worktree state, and intended upstream
-  branch before synchronizing.
+- Verify the current branch, remotes, worktree state, installed Ubuntu package
+  version, and intended package tag before synchronizing.
 - Fetch or rebase only when requested. Never assume a remote name or force-push
   destination without checking it.
 - Require a clean worktree before rebasing; do not create an implicit stash or
   temporary commit without the user's approval.
-- Keep local customization commits focused and separate from upstream snapshot
-  imports or mechanical regeneration.
+- When changing package tags, use the `git rebase --onto` form with verified
+  old and new tags so only downstream commits are transplanted. Keep
+  customization commits separate from upstream snapshot imports or mechanical
+  regeneration.
 - Resolve conflicts from current upstream source semantics, then rebuild and
   recheck every affected theme variant.
 - Never use `git reset --hard`, discard changes, rewrite published history, or

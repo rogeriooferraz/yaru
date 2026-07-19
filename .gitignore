@@ -1,5 +1,6 @@
 # Meson suggested build directories (local and package)
 build/
+build-install/
 /obj-*/
 
 # Packaging generated content
