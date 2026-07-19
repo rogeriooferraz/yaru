@@ -82,19 +82,27 @@ After editing:
 
 ## Build and validation
 
-The project uses Meson, Ninja, and `sassc`. Reuse an existing build directory
-when its configuration is suitable. Otherwise configure one with:
+The project uses Meson, Ninja, and `sassc`. Create the ignored local virtual
+environment, install the pinned Meson version, and configure or refresh the
+ignored build directory with:
 
 ```bash
-meson setup build
+scripts/setup-venv
 ```
 
 For theme source changes, compile without installing:
 
 ```bash
-ninja -C build
-meson test -C build
+venv/bin/meson compile -C build
+venv/bin/meson test -C build
 ```
+
+Track `requirements-build.txt` and `scripts/setup-venv`, but never commit
+`venv/`, `build/`, or other generated output. Use `venv/bin/meson` for local
+commands so validation uses the version recorded by the customization branch.
+After a rebase that changes the build graph, use `scripts/setup-venv --wipe` to
+recreate only the ignored Meson build state and prevent stale generated files
+from affecting validation.
 
 The CI-equivalent build directory is conventionally `_build`; either name is
 acceptable locally. A full CI configuration enables optional desktop variants,

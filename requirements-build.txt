@@ -1,0 +1,2 @@
+# Pin the repository-local Meson version so customization builds are repeatable.
+meson==1.11.2

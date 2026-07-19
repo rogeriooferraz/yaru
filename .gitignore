@@ -18,3 +18,4 @@ stage/
 prime/
 snap/.snapcraft/state
 *.snap
+venv/

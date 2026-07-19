@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [[ $# -gt 1 || ( $# -eq 1 && $1 != "--wipe" ) ]]; then
+  echo "Usage: $0 [--wipe]" >&2
+  exit 2
+fi
+
+repo_root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+venv_dir="${repo_root}/venv"
+build_dir="${repo_root}/build"
+
+if [[ ! -x "${venv_dir}/bin/python" ]]; then
+  python3 -m venv "${venv_dir}"
+fi
+
+"${venv_dir}/bin/python" -m pip install \
+  --disable-pip-version-check \
+  --requirement "${repo_root}/requirements-build.txt"
+
+if [[ ${1:-} == "--wipe" && -f "${build_dir}/meson-private/coredata.dat" ]]; then
+  "${venv_dir}/bin/meson" setup --wipe "${build_dir}" "${repo_root}"
+elif [[ -f "${build_dir}/meson-private/coredata.dat" ]]; then
+  "${venv_dir}/bin/meson" setup --reconfigure "${build_dir}" "${repo_root}"
+else
+  "${venv_dir}/bin/meson" setup "${build_dir}" "${repo_root}"
+fi

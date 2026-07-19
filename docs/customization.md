@@ -66,10 +66,17 @@ overlapping inactive windows.
 Compile the SCSS through the repository build before installing or testing it:
 
 ```bash
-meson setup build  # only when the build directory does not exist
-ninja -C build
-meson test -C build
+scripts/setup-venv
+venv/bin/meson compile -C build
+venv/bin/meson test -C build
 ```
+
+The setup helper creates the ignored `venv/` directory, installs the Meson
+version pinned in `requirements-build.txt`, and configures or refreshes the
+ignored `build/` directory. Only the setup helper and requirements file belong
+in Git; the environment and generated build output remain local. After a
+rebase that changes the build graph, run `scripts/setup-venv --wipe` once to
+recreate the generated build state.
 
 Compilation verifies that the SCSS is valid, but it does not verify appearance.
 In a graphical session, check at least:
@@ -95,5 +102,6 @@ After rebasing onto a newer Yaru version:
    selectors or state handling.
 3. Reapply only the dark branches of the two expressions; preserve current
    upstream light-theme values.
-4. Rebuild the GTK themes and repeat the active/backdrop visual checks.
+4. Run `scripts/setup-venv --wipe`, rebuild the GTK themes, and repeat the
+   active/backdrop visual checks.
 5. Keep this document aligned if the color, scope, or supported toolkit changes.
