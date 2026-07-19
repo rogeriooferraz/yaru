@@ -45,6 +45,7 @@ The theme behavior carried by the branch is described in
 - `origin` is the writable personal fork.
 - `upstream` is the official `ubuntu/yaru` repository.
 - `custom` contains only downstream customization and maintenance commits.
+- After its first publication, `custom` is the fork's default branch.
 - The selected immutable package tag is the customization baseline.
 - `master` tracks upstream development independently and is never used as an
   implicit replacement for the package baseline.
@@ -521,6 +522,21 @@ git ls-remote --heads origin custom
 The local branch should show `[origin/custom]`, and the remote query should show
 `refs/heads/custom` at the same commit. Do not force the first push when the
 remote branch does not yet exist.
+
+Make `custom` the fork's default branch so the GitHub landing page and ordinary
+clones present the customization instead of the upstream development reference:
+
+```bash
+fork_owner=$(gh api user --jq .login)
+fork_repo="${fork_owner}/yaru"
+gh repo edit "$fork_repo" --default-branch custom
+git remote set-head origin -a
+gh repo view "$fork_repo" --json defaultBranchRef,url
+```
+
+The verification output should identify `custom` as the default branch, and
+`origin/HEAD` should point to `origin/custom`. This does not remove `master` or
+change its role as an independent upstream development reference.
 
 ## 10. Maintain the independent `master` reference
 

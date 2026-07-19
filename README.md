@@ -1,5 +1,19 @@
 # Ubuntu Yaru theme suite
 
+> **About this fork**
+>
+> This fork maintains a small downstream customization of Ubuntu Yaru. The
+> `custom` branch is based on the Ubuntu package tag `24.04.2-0ubuntu1` and
+> gives focused windows a deepsky-blue border in the dark GTK 3 and GTK 4
+> themes, with a lighter neutral border for unfocused windows. Light themes
+> retain their upstream appearance.
+>
+> See [the customization description](docs/customization.md) for the visual
+> changes and [the fork guide](docs/fork.md) for building, installing, and
+> maintaining the branch. The original project is
+> [ubuntu/yaru](https://github.com/ubuntu/yaru); its README content continues
+> below.
+
 Yaru is the default theme for Ubuntu, backed by the community.
 
 It contains:
