@@ -61,6 +61,11 @@ The theme behavior carried by the branch is described in
 
 ## 4. Create a fork and new checkout
 
+This chapter applies when creating the GitHub fork before making any local
+customization. If the customization already exists in a local clone, preserve
+that checkout and follow [Chapter 5](#5-adapt-an-existing-checkout) instead.
+Both workflows produce the same branch and remote layout.
+
 Creating the GitHub fork before editing gives the checkout a writable `origin`
 from the beginning. Add official Yaru as `upstream`, fetch its tags, and create
 `custom` directly from the selected package tag.
