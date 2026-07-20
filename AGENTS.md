@@ -151,19 +151,6 @@ Ubuntu package tag. The current Ubuntu 24.04 baseline is
 - Never use `git reset --hard`, discard changes, rewrite published history, or
   force-push without explicit approval.
 
-## Commit workflow
-
-- Suggest the commit message before committing.
-- Determine scope from the staged diff first, then the unstaged diff, and only
-  then `git diff HEAD~1 HEAD` when the worktree is clean.
-- Use a concise imperative title. In the body, explain the previous behavior,
-  why the customization is needed, and its user-visible effect.
-- Reference an issue only when a real issue number was provided.
-- Include a `Signed-off-by:` trailer and use `git commit -s` when committing on
-  the user's behalf.
-- Before committing, verify that staged files match the requested scope and
-  that no generated build artifacts are included.
-
 ## Definition of done
 
 A customization task is complete when:
@@ -175,3 +162,36 @@ A customization task is complete when:
 - no generated output or system-local state is accidentally tracked; and
 - the user receives a concise diff summary and a suggested commit message when
   appropriate.
+
+## Working Style
+
+- Prefer direct inspection of code, docs, config, and runtime evidence over guesses.
+- Keep changes scoped to the user request. Do not bundle unrelated app, backend, docs, or test changes unless the user explicitly asks for that.
+- Do not revert or rewrite unrelated user changes.
+
+## Commit Workflow
+
+1. Always suggest a commit message before committing.
+
+2. A commit message must include a title, a body, and a `Signed-off-by:` trailer.
+
+3. Keep the title to 50 characters or fewer. Wrap the body at 72 characters per line.
+
+4. Write commit messages as concise technical documentation. Explain what changed and why, favor functional impact, and avoid vague or low-information summaries.
+
+5. Prefer neutral, system-focused titles for docs or architecture commits unless the repository name adds meaningful context.
+
+6. For commit message requests, use this scope order:
+   - If there are staged changes, use the staged diff.
+   - Otherwise, if there are current uncommitted changes, use those changes.
+   - Otherwise, use `git diff HEAD~1 HEAD`.
+
+7. When the user asks for a narrowly scoped commit, verify that the diff actually matches that scope before suggesting the message or committing.
+
+8. Use `git commit -s` by default, or otherwise verify that the final commit message includes the required `Signed-off-by:` trailer before completing the commit.
+
+## Response Expectations
+
+- Explain what is true now unless the user is explicitly asking for a proposal.
+- Surface assumptions, boundaries, and verification steps clearly when they matter.
+- When asked to review or rewrite project text, optimize for accuracy, structure, and maintainability rather than brevity alone.
